@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface Player {
   partidosJugados: number;
@@ -12,16 +12,21 @@ interface Player {
 
 function App() {
   const [nombre, setNombre] = useState("");
-  const [partidosJugados, setPartidosJugados] = useState<number>();
-  const [goles, setGoles] = useState<string>();
-  const [asistencias, setAsistencias] = useState<string>();
+  const [partidosJugados, setPartidosJugados] = useState<number>(0);
+  const [goles, setGoles] = useState<string>("0");
+  const [asistencias, setAsistencias] = useState<string>("0");
   const [players, setPlayers] = useState<Player[]>([]);
 
   // Cargar datos de localStorage al cargar la aplicación
   useEffect(() => {
     const storedPlayers = localStorage.getItem("players");
     if (storedPlayers) {
-      setPlayers(JSON.parse(storedPlayers));
+      setPlayers(JSON.parse(storedPlayers).map((player: Player) => ({
+        ...player,
+        partidosJugados: Number(player.partidosJugados),
+        goles: Number(player.goles),
+        asistencias: Number(player.asistencias),
+      })));
     }
   }, []);
 
