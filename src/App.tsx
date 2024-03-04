@@ -21,12 +21,14 @@ function App() {
   useEffect(() => {
     const storedPlayers = localStorage.getItem("players");
     if (storedPlayers) {
-      setPlayers(JSON.parse(storedPlayers).map((player: Player) => ({
-        ...player,
-        partidosJugados: Number(player.partidosJugados),
-        goles: Number(player.goles),
-        asistencias: Number(player.asistencias),
-      })));
+      setPlayers(
+        JSON.parse(storedPlayers).map((player: Player) => ({
+          ...player,
+          partidosJugados: Number(player.partidosJugados),
+          goles: Number(player.goles),
+          asistencias: Number(player.asistencias)
+        }))
+      );
     }
   }, []);
 
@@ -84,7 +86,7 @@ function App() {
       asistencias: asistenciasNum,
       promedioGoles,
       promedioAsistencias,
-      contribucionDirecta,
+      contribucionDirecta
     };
 
     setPlayers([...players, newPlayer]);
@@ -95,12 +97,22 @@ function App() {
     setAsistencias("0");
   };
 
+  const handleDeletePlayer = (index: number) => {
+    const updatedPlayers = [...players];
+    updatedPlayers.splice(index, 1);
+    setPlayers(updatedPlayers);
+  };
+
   return (
     <>
       <div className="text-black dark:text-white dark:bg-gray-800 rounded-md h-screen mx-auto">
         <h1 className="text-6xl font-bold pt-4 text-center">Metricas</h1>
 
-        <form action="" className="mx-auto container my-10 px-4 max-w-xl" onSubmit={handleSubmit}>
+        <form
+          action=""
+          className="mx-auto container my-10 px-4 max-w-xl"
+          onSubmit={handleSubmit}
+        >
           <div className="relative z-0 mb-5 group ">
             <input
               type="text"
@@ -208,6 +220,7 @@ function App() {
                 <th scope="col" className="px-6 py-3">
                   Contribución
                 </th>
+                <th scope="col" className="px-6 py-3"></th>
               </tr>
             </thead>
             <tbody>
@@ -234,6 +247,9 @@ function App() {
                   </td>
                   <td className="px-6 py-4 font-bold">
                     {player.contribucionDirecta.toFixed(2)}
+                  </td>
+                  <td className="px-6 py-4 font-bold text-red-600">
+                    <button onClick={() => handleDeletePlayer(index)}>Eliminar</button>
                   </td>
                 </tr>
               ))}
