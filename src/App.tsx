@@ -4,8 +4,7 @@ function App() {
 
   return (
     <>
-      <h1 className="text-6xl font-bold">PlayerMetrics</h1>
-      
+      <h1 className="text-6xl font-bold underline">PlayerMetrics</h1>
     </>
   )
 }
